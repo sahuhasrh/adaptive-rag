@@ -25,6 +25,7 @@ def create_qdrant_client() -> QdrantClient:
     )
 
 
+
 def ensure_collection(client: QdrantClient) -> None:
     if not client.collection_exists(COLLECTION_NAME):
         client.create_collection(
@@ -35,7 +36,6 @@ def ensure_collection(client: QdrantClient) -> None:
             ),
         )
         print(f"Created Qdrant collection: {COLLECTION_NAME}")
-        return
 
     info = client.get_collection(COLLECTION_NAME)
     actual_size = info.config.params.vectors.size
@@ -47,7 +47,20 @@ def ensure_collection(client: QdrantClient) -> None:
             "Use a new collection name or recreate the collection."
         )
 
-    print(f"Using existing collection: {COLLECTION_NAME}")
+    # Create the keyword index required for paper-specific filtering.
+    payload_schema = info.payload_schema or {}
+
+    if "paper_id" not in payload_schema:
+        client.create_payload_index(
+            collection_name=COLLECTION_NAME,
+            field_name="paper_id",
+            field_schema=models.PayloadSchemaType.KEYWORD,
+            wait=True,
+        )
+        print("Created payload index: paper_id")
+
+    print(f"Using Qdrant collection: {COLLECTION_NAME}")
+
 
 
 def upsert_chunks(
