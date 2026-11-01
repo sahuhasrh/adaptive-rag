@@ -1,0 +1,6 @@
+fastembed
+qdrant-client
+python-dotenv
+pymupdf
+pymupdf4llm
+transformers
