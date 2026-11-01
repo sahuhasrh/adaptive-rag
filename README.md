@@ -258,15 +258,3 @@ python scripts/evaluate_retrieval.py
 6. **Ingestion quality checks:** detect empty pages, duplicate headers, malformed chunks, missing metadata and duplicate documents.
 7. **Production backend:** add FastAPI endpoints, authentication, per-user data isolation, rate limits, structured logs, timeouts and health checks if deploying to multiple users.
 8. **Incremental indexing:** track paper versions and re-index only changed documents.
-
-Avoid adding agents, fine-tuning, knowledge graphs or more vector databases unless a demonstrated requirement and evaluation justify them.
-
-## Interview positioning
-
-> Built a feedback-driven RAG assistant over research papers using FastEmbed and Qdrant for semantic retrieval, Groq for grounded answer generation, SQLite for persistent interaction feedback, and LangGraph for a one-retry corrective retrieval workflow. Implemented query-aware bounded feedback reranking and evaluated it against baseline retrieval using a manually labelled question set.
-
-Be transparent about the latest measurements: paper-level Recall@5 moved from 0.80 to 0.82, paper-level MRR moved from 0.84 to 0.82, and average measured latency moved from 0.4161s to 0.3984s. Explain that these are early mixed results and describe the next evaluation improvements.
-
-## License
-
-Choose and add a license before presenting the repository as open source.
