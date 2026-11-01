@@ -1,8 +1,14 @@
 
 import os
+import uuid
+
 from groq import Groq
 
 from backend.retrieval.retriever import ResearchRetriever
+from backend.database.feedback_store import (
+    initialize_database,
+    record_answer,
+)
 
 
 SYSTEM_PROMPT = """
@@ -26,8 +32,11 @@ At the end, provide a Sources section listing the citations used.
 class RAGService:
     def __init__(self):
         api_key = os.getenv("GROQ_API_KEY")
+
         if not api_key:
             raise ValueError("GROQ_API_KEY is missing from .env")
+
+        initialize_database()
 
         self.client = Groq(api_key=api_key)
         self.model = os.getenv(
@@ -37,14 +46,29 @@ class RAGService:
         self.retriever = ResearchRetriever()
 
     def answer(self, question: str, top_k: int = 5) -> dict:
+        answer_id = str(uuid.uuid4())
+
         results = self.retriever.search(
             query=question,
             top_k=top_k,
         )
 
         if not results:
+            answer_text = (
+                "I could not find relevant information in the "
+                "available research papers."
+            )
+
+            record_answer(
+                answer_id=answer_id,
+                query=question,
+                answer_text=answer_text,
+                retrieved_chunks=[],
+            )
+
             return {
-                "answer": "I could not find relevant information in the research papers.",
+                "answer_id": answer_id,
+                "answer": answer_text,
                 "sources": [],
                 "retrieved_chunks": [],
             }
@@ -53,7 +77,7 @@ class RAGService:
         sources = []
 
         for index, result in enumerate(results, start=1):
-            source = {
+            sources.append({
                 "citation_id": index,
                 "paper_title": result["paper_title"],
                 "paper_id": result["paper_id"],
@@ -61,9 +85,7 @@ class RAGService:
                 "page_start": result["page_start"],
                 "page_end": result["page_end"],
                 "score": result["score"],
-            }
-
-            sources.append(source)
+            })
 
             context_parts.append(
                 f"""
@@ -104,10 +126,19 @@ Answer using the supplied context and cite sources.
             max_tokens=1200,
         )
 
-        answer = response.choices[0].message.content
+        answer_text = response.choices[0].message.content or ""
+
+        record_answer(
+            answer_id=answer_id,
+            query=question,
+            answer_text=answer_text,
+            retrieved_chunks=results,
+            retrieval_strategy="baseline_vector",
+        )
 
         return {
-            "answer": answer,
+            "answer_id": answer_id,
+            "answer": answer_text,
             "sources": sources,
             "retrieved_chunks": results,
         }
