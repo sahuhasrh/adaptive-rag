@@ -1,0 +1,26 @@
+
+{"question":"What is the main architecture of Retrieval-Augmented Generation?","relevant_paper_ids":["rag"]}
+{"question":"How does DPR encode questions and passages?","relevant_paper_ids":["dpr"]}
+{"question":"What is the role of the passage encoder in DPR?","relevant_paper_ids":["dpr"]}
+{"question":"How does DPR calculate relevance between a query and passage?","relevant_paper_ids":["dpr"]}
+{"question":"Why does DPR use dense vectors for retrieval?","relevant_paper_ids":["dpr"]}
+{"question":"What is late interaction in ColBERT?","relevant_paper_ids":["colbert"]}
+{"question":"Explain the MaxSim operation in ColBERT.","relevant_paper_ids":["colbert"]}
+{"question":"How does ColBERT represent document tokens?","relevant_paper_ids":["colbert"]}
+{"question":"How does ColBERT differ from single-vector dense retrieval?","relevant_paper_ids":["colbert","dpr"]}
+{"question":"Why are document representations precomputed in ColBERT?","relevant_paper_ids":["colbert"]}
+{"question":"What is the HyDE approach to zero-shot retrieval?","relevant_paper_ids":["hyde"]}
+{"question":"Why does HyDE generate a hypothetical document?","relevant_paper_ids":["hyde"]}
+{"question":"How does HyDE improve query representation?","relevant_paper_ids":["hyde"]}
+{"question":"What is the purpose of the hypothetical document embedding?","relevant_paper_ids":["hyde"]}
+{"question":"How does HyDE work without relevance labels?","relevant_paper_ids":["hyde"]}
+{"question":"What is RAGAS used to evaluate?","relevant_paper_ids":["ragas"]}
+{"question":"Explain faithfulness in RAG evaluation.","relevant_paper_ids":["ragas"]}
+{"question":"What is answer relevancy in RAGAS?","relevant_paper_ids":["ragas"]}
+{"question":"How is context precision measured in RAGAS?","relevant_paper_ids":["ragas"]}
+{"question":"What is context recall in RAG evaluation?","relevant_paper_ids":["ragas"]}
+{"question":"How does retrieval-augmented generation combine retrieval and generation?","relevant_paper_ids":["rag"]}
+{"question":"What problem does retrieval augmentation solve in language models?","relevant_paper_ids":["rag"]}
+{"question":"How can retrieved passages provide evidence for generated answers?","relevant_paper_ids":["rag"]}
+{"question":"Compare DPR and ColBERT retrieval architectures.","relevant_paper_ids":["dpr","colbert"]}
+{"question":"How can RAG systems be evaluated for answer quality and retrieval quality?","relevant_paper_ids":["rag","ragas"]}
